@@ -1,0 +1,22 @@
+name: Redate commit
+on: workflow_dispatch
+
+jobs:
+  redate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Redate commit
+        run: |
+          git config user.email "vlad1m1rvallt88@email.com"
+          git config user.name "VladimirSamoylov"
+          
+          git rebase -i <PARENT_HASH> --exec \
+            'GIT_AUTHOR_DATE="2025-06-20T12:00:00" GIT_COMMITTER_DATE="2025-06-20T12:00:00" git commit --amend --no-edit'
+
+      - name: Force push
+        run: git push --force
