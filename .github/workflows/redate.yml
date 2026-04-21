@@ -8,15 +8,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Redate commits
         run: |
           git config user.email "valt2208vs@gmail.com"
           git config user.name "SamojlovVladimir"
-          
-          COMMITS=$(git log d8e1f85f6f40f8a427980dfcb05e8b4c241a423a..HEAD --format="%H" | tail -n +4)
-          
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/SamojlovVladimir/Polytech.git
           git rebase d8e1f85f6f40f8a427980dfcb05e8b4c241a423a \
             --exec 'GIT_AUTHOR_DATE="2025-06-20T12:00:00" GIT_COMMITTER_DATE="2025-06-20T12:00:00" git commit --amend --no-edit'
 
