@@ -1,4 +1,4 @@
-name: Redate commit
+name: Redate commits
 on: workflow_dispatch
 
 jobs:
@@ -10,13 +10,15 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Redate commit
+      - name: Redate commits
         run: |
-          git config user.email "vlad1m1rvallt88@email.com"
-          git config user.name "VladimirSamoylov"
+          git config user.email "vlad1m1rvallt88@gmail.com"
+          git config user.name "SamojlovVladimir"
           
-          git rebase -i <PARENT_HASH> --exec \
-            'GIT_AUTHOR_DATE="2025-06-20T12:00:00" GIT_COMMITTER_DATE="2025-06-20T12:00:00" git commit --amend --no-edit'
+          COMMITS=$(git log d8e1f85f6f40f8a427980dfcb05e8b4c241a423a..HEAD --format="%H" | tail -n +4)
+          
+          git rebase d8e1f85f6f40f8a427980dfcb05e8b4c241a423a \
+            --exec 'GIT_AUTHOR_DATE="2025-06-20T12:00:00" GIT_COMMITTER_DATE="2025-06-20T12:00:00" git commit --amend --no-edit'
 
       - name: Force push
         run: git push --force
